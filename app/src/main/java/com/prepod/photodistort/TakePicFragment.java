@@ -273,7 +273,12 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.btn_camera_takepic: {
+                takePicture();
+                break;
+            }
+        }
     }
 
     private void openCamera(int width, int height) {
@@ -574,6 +579,22 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
                     CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             mState = CameraState.STATE_WAITING_PRECAPTURE;
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                    mBackgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void takePicture() {
+        lockFocus();
+    }
+
+    private void lockFocus() {
+        try {
+            mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CameraMetadata.CONTROL_AF_TRIGGER_START);
+            mState = CameraState.STATE_WAITING_LOCK;
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
                     mBackgroundHandler);
         } catch (CameraAccessException e) {
