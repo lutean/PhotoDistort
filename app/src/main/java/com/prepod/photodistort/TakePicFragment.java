@@ -551,10 +551,14 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
 //                    showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, FiltersFragment.newInstance(getActivity().getExternalFilesDir(null) + "/photo.jpg"))
-                            .commit();
-
+                    PhotoDistort.getInstatnse().getUiHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.container, FiltersFragment.newInstance(getActivity().getExternalFilesDir(null) + "/photo.jpg"))
+                                    .commit();
+                        }
+                    });
                 }
             };
 

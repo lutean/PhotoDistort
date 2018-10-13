@@ -12,7 +12,23 @@
         android:src="@mipmap/ic_launcher"
         android:layout_height="300dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="do"
+        android:id="@+id/btn_filter_invert"
+        android:layout_height="wrap_content" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="do2"
+        android:id="@+id/btn_filter_gray"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:text="do3"
+        android:id="@+id/btn_filter_blur"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>
