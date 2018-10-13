@@ -244,6 +244,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull final View view, Bundle savedInstanceState) {
         view.findViewById(R.id.btn_camera_takepic).setOnClickListener(this);
+        view.findViewById(R.id.btn_camera_switchcam).setOnClickListener(this);
         mTextureView = view.findViewById(R.id.texture_camera);
     }
 
@@ -274,10 +275,18 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_camera_takepic: {
+            case R.id.btn_camera_takepic:
                 takePicture();
                 break;
-            }
+            case R.id.btn_camera_switchcam:
+                closeCamera();
+                mCameraKind = mCameraKind == CameraKind.FRONT ? CameraKind.BACK : CameraKind.FRONT;
+                if (mTextureView.isAvailable()) {
+                    openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+                } else {
+                    mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+                }
+                break;
         }
     }
 
