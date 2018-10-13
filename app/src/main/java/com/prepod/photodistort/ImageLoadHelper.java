@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,9 @@ public class ImageLoadHelper {
 
             while (cursorThumb.moveToNext()) {
                 String thumb = cursorThumb.getString(thumbColumnIndex);
-                Uri thumbImageUri = Uri.parse(thumb);
                 long id = cursorThumb.getLong(cursorThumb.getColumnIndex(MediaStore.Images.Thumbnails.IMAGE_ID));
 //                Uri contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-                imageList.add(new ImageItem("", thumbImageUri));
+                imageList.add(new ImageItem("", thumb));
             }
 
         return imageList;

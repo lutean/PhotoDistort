@@ -72,7 +72,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
             return;
         }
         imageItems = ImageLoadHelper.getImages(getActivity().getContentResolver());
-        galleryAdapter = new GalleryAdapter(imageItems, this);
+        galleryAdapter = new GalleryAdapter(getActivity(), imageItems, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
     }
 
@@ -96,7 +96,9 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
 
     @Override
     public void onImageClick(ImageItem imageItem) {
-
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, FiltersFragment.newInstance(imageItem.getImageThumbPath()))
+                .commit();
     }
 
     @Override

@@ -8,16 +8,16 @@ import android.net.Uri;
 public class ImageItem {
 
     private String imageId;
-    private Uri imageThumbUri;
+    private String imageThumbPath;
     private Uri imageUri;
 
-    public ImageItem(String imageId, Uri imageThumbUri) {
+    public ImageItem(String imageId, String imageThumbUri) {
         this(imageId, imageThumbUri, null);
     }
 
-    public ImageItem(String imageId, Uri imageThumbUri, Uri imageUri) {
+    public ImageItem(String imageId, String imageThumbPath, Uri imageUri) {
         this.imageId = imageId;
-        this.imageThumbUri = imageThumbUri;
+        this.imageThumbPath = imageThumbPath;
         this.imageUri = imageUri;
     }
 
@@ -29,19 +29,19 @@ public class ImageItem {
         this.imageId = imageId;
     }
 
-    public Uri getImageThumbUri() {
-        return imageThumbUri;
-    }
-
-    public void setImageThumbUri(Uri imageThumbUri) {
-        this.imageThumbUri = imageThumbUri;
-    }
-
     public Uri getImageUri() {
         return imageUri;
     }
 
     public void setImageUri(Uri imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public String getImageThumbPath() {
+        return imageThumbPath;
+    }
+
+    public void setImageThumbPath(String imageThumbPath) {
+        this.imageThumbPath = imageThumbPath;
     }
 }
