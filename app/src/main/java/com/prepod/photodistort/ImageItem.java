@@ -12,8 +12,13 @@ public class ImageItem {
     private Uri imageUri;
 
     public ImageItem(String imageId, Uri imageThumbUri) {
+        this(imageId, imageThumbUri, null);
+    }
+
+    public ImageItem(String imageId, Uri imageThumbUri, Uri imageUri) {
         this.imageId = imageId;
         this.imageThumbUri = imageThumbUri;
+        this.imageUri = imageUri;
     }
 
     public String getImageId() {

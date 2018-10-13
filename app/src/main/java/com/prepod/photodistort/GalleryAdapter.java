@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +15,10 @@ import java.util.List;
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.RecyclerViewHolder>  {
 
     interface GalleryInteractionListener{
-        void onImageClick(int position);
+        void onImageClick(ImageItem imageItem);
     }
 
-    private List<ImageItem> imageItems = new ArrayList<>();
+    private List<ImageItem> imageItems;
     private GalleryInteractionListener galleryInteractionListener;
 
     public GalleryAdapter(List<ImageItem> imageItems, GalleryInteractionListener galleryInteractionListener) {
@@ -36,7 +35,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.Recycler
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i) {
-        recyclerViewHolder.cardImage.setImageURI(imageItems.get(i).getImageUri());
+        recyclerViewHolder.cardImage.setImageURI(imageItems.get(i).getImageThumbUri());
     }
 
     @Override
@@ -54,7 +53,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.Recycler
             cardImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    galleryInteractionListener.onImageClick(getAdapterPosition());
+                    galleryInteractionListener.onImageClick(imageItems.get(getAdapterPosition()));
                 }
             });
         }

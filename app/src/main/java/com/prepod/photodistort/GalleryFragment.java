@@ -1,33 +1,35 @@
 package com.prepod.photodistort;
 
+import android.Manifest;
 import android.content.Context;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryInteractionListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private final int PERMISSIONS_STORAGE_REQUEST = 13;
+
 
     private String mParam1;
     private String mParam2;
 
     private RecyclerView mPhotoGridRecycler;
     private GridLayoutManager gridLayoutManager;
-    private OnFragmentInteractionListener mListener;
     private GalleryAdapter galleryAdapter;
-    private List<ImageItem> imageItems = new ArrayList<>();
+    private List<ImageItem> imageItems;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -64,40 +66,50 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
         mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
         mPhotoGridRecycler.setHasFixedSize(true);
         mPhotoGridRecycler.setLayoutManager(gridLayoutManager);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestStoragePermission();
+            return;
+        }
+        imageItems = ImageLoadHelper.getImages(getActivity().getContentResolver());
         galleryAdapter = new GalleryAdapter(imageItems, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void requestStoragePermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_STORAGE_REQUEST);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
-    public void onImageClick(int position) {
+    public void onImageClick(ImageItem imageItem) {
 
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_STORAGE_REQUEST) {
+            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
+
+
 }
