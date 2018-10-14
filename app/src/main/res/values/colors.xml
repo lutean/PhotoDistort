@@ -5,4 +5,5 @@
     <color name="colorAccent">#288bff</color>
     <color name="tab_title_color">#d8d8d8</color>
     <color name="tab_title_color_selected">#212121</color>
+    <color name="filter_title_color">#212121</color>
 </resources>

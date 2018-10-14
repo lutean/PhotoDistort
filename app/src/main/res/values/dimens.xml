@@ -2,4 +2,5 @@
 <resources>
 
     <dimen name="filters_preview_img_size">80dp</dimen>
+    <dimen name="filters_img_size">300dp</dimen>
 </resources>

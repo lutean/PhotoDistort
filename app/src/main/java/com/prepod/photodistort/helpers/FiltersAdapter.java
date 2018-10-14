@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -19,13 +20,18 @@ import java.util.List;
 
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersViewHolder> {
 
+    public interface OnFilterClickListener{
+        void onFilterClick(int pos);
+    }
+
     private List<FilterItem> filterList;
     private RequestManager mGlide;
+    private OnFilterClickListener onFilterClickListener;
 
-    public FiltersAdapter(Context context, List<FilterItem> filterList) {
+    public FiltersAdapter(Context context, List<FilterItem> filterList, OnFilterClickListener onFilterClickListener) {
         this.filterList = filterList;
         mGlide = Glide.with(context);
-
+        this.onFilterClickListener = onFilterClickListener;
     }
 
     @NonNull
@@ -37,6 +43,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
 
     @Override
     public void onBindViewHolder(@NonNull FiltersViewHolder filtersViewHolder, int i) {
+        filtersViewHolder.filterTitle.setText(filterList.get(i).getTitle());
         mGlide.load(filterList.get(i).getImage()).apply(new RequestOptions().centerCrop()
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .override(256, 256)).into(filtersViewHolder.filterImage);
@@ -50,10 +57,18 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
     class FiltersViewHolder extends RecyclerView.ViewHolder{
 
         ImageView filterImage;
+        TextView filterTitle;
 
         public FiltersViewHolder(@NonNull View itemView) {
             super(itemView);
             filterImage = itemView.findViewById(R.id.image_filters);
+            filterTitle = itemView.findViewById(R.id.text_filters);
+            filterImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onFilterClickListener.onFilterClick(getAdapterPosition());
+                }
+            });
         }
     }
 }

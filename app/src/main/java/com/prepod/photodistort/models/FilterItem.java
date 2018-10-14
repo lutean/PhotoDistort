@@ -10,10 +10,12 @@ public class FilterItem implements Distortable {
 
     private Bitmap image;
     private Filter filter;
+    private String title;
 
-    public FilterItem(Bitmap image, Filter filter) {
+    public FilterItem(Bitmap image, Filter filter, String title) {
         this.image = image;
         this.filter = filter;
+        this.title = title;
     }
 
     public Bitmap getImage() {
@@ -30,5 +32,13 @@ public class FilterItem implements Distortable {
 
     public void setFilter(Filter filter) {
         this.filter = filter;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
