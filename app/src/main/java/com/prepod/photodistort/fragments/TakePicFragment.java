@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prepod.photodistort.AutoFitTextureView;
+import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.PhotoDistort;
 import com.prepod.photodistort.R;
 
@@ -101,6 +102,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
     private CaptureRequest mPreviewRequest;
     private CameraState mState = CameraState.STATE_PREVIEW;
     private int mSensorOrientation;
+    private OnCapturePictureListener onCapturePictureListener;
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
@@ -275,6 +277,18 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onCapturePictureListener = (OnCapturePictureListener) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onCapturePictureListener = null;
     }
 
     @Override
@@ -556,6 +570,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
 //                    showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
+                    onCapturePictureListener.onCapture();
                     PhotoDistort.getInstatnse().getUiHandler().post(new Runnable() {
                         @Override
                         public void run() {
@@ -569,7 +584,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
 
             mCaptureSession.stopRepeating();
             mCaptureSession.abortCaptures();
-            mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
+            mCaptureSession.capture(captureBuilder.build(), CaptureCallback, PhotoDistort.getInstatnse().getUiHandler());
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }

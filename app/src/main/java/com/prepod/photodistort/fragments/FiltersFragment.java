@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.prepod.photodistort.Distortable;
 import com.prepod.photodistort.models.FilterItem;
 import com.prepod.photodistort.helpers.FiltersAdapter;
@@ -102,7 +103,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener {
         mGlide = Glide.with(getActivity());
         File file = new File(imagePath);
         mGlide.load(file).apply(new RequestOptions().centerCrop()
-//                .signature(new ObjectKey(System.currentTimeMillis()))
+                .signature(new ObjectKey(System.currentTimeMillis()))
                 .override(512, 512)).into(resultImage);
     }
 
