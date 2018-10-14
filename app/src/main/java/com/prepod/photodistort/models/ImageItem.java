@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.models;
 
 import android.net.Uri;
 

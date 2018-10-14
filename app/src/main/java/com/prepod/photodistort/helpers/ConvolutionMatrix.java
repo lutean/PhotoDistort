@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

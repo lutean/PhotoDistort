@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -22,6 +22,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.prepod.photodistort.ConvolutionMatrix;
+import com.prepod.photodistort.Distortable;
+import com.prepod.photodistort.models.FilterItem;
+import com.prepod.photodistort.helpers.FiltersAdapter;
+import com.prepod.photodistort.R;
 import com.zomato.photofilters.SampleFilters;
 import com.zomato.photofilters.imageprocessors.Filter;
 

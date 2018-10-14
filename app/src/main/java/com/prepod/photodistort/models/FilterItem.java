@@ -1,11 +1,12 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.models;
 
 import android.graphics.Bitmap;
 
+import com.prepod.photodistort.Distortable;
 import com.zomato.photofilters.imageprocessors.Filter;
 
 
-public class FilterItem implements Distortable{
+public class FilterItem implements Distortable {
 
     private Bitmap image;
     private Filter filter;

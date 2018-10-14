@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.helpers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.prepod.photodistort.R;
+import com.prepod.photodistort.models.ImageItem;
 
 import java.io.File;
 import java.util.List;

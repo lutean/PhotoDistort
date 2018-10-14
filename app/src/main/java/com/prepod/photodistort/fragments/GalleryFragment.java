@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -13,6 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.prepod.photodistort.helpers.GalleryAdapter;
+import com.prepod.photodistort.models.ImageItem;
+import com.prepod.photodistort.helpers.ImageLoadHelper;
+import com.prepod.photodistort.R;
 
 import java.util.List;
 

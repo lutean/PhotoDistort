@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -35,6 +35,10 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.prepod.photodistort.AutoFitTextureView;
+import com.prepod.photodistort.PhotoDistort;
+import com.prepod.photodistort.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,9 +1,11 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.helpers;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import com.prepod.photodistort.models.ImageItem;
 
 import java.util.ArrayList;
 import java.util.List;

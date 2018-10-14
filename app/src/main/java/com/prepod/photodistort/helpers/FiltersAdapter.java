@@ -1,4 +1,4 @@
-package com.prepod.photodistort;
+package com.prepod.photodistort.helpers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
+import com.prepod.photodistort.R;
+import com.prepod.photodistort.models.FilterItem;
 
 import java.util.List;
 
