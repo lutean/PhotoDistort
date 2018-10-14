@@ -219,8 +219,8 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
 
         List<Size> bigEnough = new ArrayList<>();
         List<Size> notBigEnough = new ArrayList<>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
+        int w = 1;
+        int h = 1;
         for (Size option : choices) {
             if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
                     option.getHeight() == option.getWidth() * h / w) {
@@ -323,7 +323,7 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
 
             CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
-                throw new RuntimeException("Time out waiting to lock camera opening.");
+                Log.e(TAG, "Time out waiting to lock camera opening.");
             }
             manager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
         } catch (CameraAccessException e) {
@@ -350,8 +350,15 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             if (streamConfigurationMap == null) continue;
 
-            Size largest = Collections.max(Arrays.asList(streamConfigurationMap.getOutputSizes(ImageFormat.JPEG)),
+            Size[] sizes = streamConfigurationMap.getOutputSizes(ImageFormat.JPEG);
+            List<Size> newSizes = new ArrayList<>();
+            for (int i = 0; i < sizes.length; i++){
+                if (sizes[i].getHeight() == sizes[i].getWidth())
+                    newSizes.add(sizes[i]);
+            }
+            Size largest = Collections.max(newSizes,
                     new CompareSizesByArea());
+
             mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
                     ImageFormat.JPEG, 2);
             mImageReader.setOnImageAvailableListener(
@@ -571,14 +578,6 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
                     onCapturePictureListener.onCapture(mFile.getAbsolutePath());
-                    PhotoDistort.getInstatnse().getUiHandler().post(new Runnable() {
-                        @Override
-                        public void run() {
-                           /* getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, FiltersFragment.newInstance(getActivity().getExternalFilesDir(null) + "/photo.jpg"))
-                                    .commit();*/
-                        }
-                    });
                 }
             };
 

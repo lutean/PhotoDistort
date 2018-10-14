@@ -150,7 +150,8 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
         try {
             Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
             if (bmp == null) return null;
-            bmp = Bitmap.createScaledBitmap(bmp, 512, 512, false);
+            int mult = bmp.getWidth() / 512;
+            bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
             if (filter != null)
                 applyFilter(bmp, filter);
             File file = new File(getActivity().getExternalFilesDir(null), "photo_distorted.jpg");
@@ -177,8 +178,9 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
             Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
             if (bmp == null) return null;
             float size = activity.getResources().getDimension(R.dimen.filters_preview_img_size);
+            int mult = bmp.getWidth() / (int) size;
 //            bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(imagePath));
-            return Bitmap.createScaledBitmap(bmp, (int) size, (int) size, false);
+            return Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
