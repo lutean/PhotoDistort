@@ -93,7 +93,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        resultImage = view.findViewById(R.id.image_filters);
+        resultImage = view.findViewById(R.id.image_item);
         filtersLsit = view.findViewById(R.id.recycler_filters);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

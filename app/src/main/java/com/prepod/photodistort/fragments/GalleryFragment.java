@@ -66,7 +66,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
         mPhotoGridRecycler.setHasFixedSize(true);
         mPhotoGridRecycler.setLayoutManager(gridLayoutManager);

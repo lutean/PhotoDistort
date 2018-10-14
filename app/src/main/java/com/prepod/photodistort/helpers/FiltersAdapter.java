@@ -37,7 +37,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
     @NonNull
     @Override
     public FiltersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_filters_item, null, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_image_item, null, false);
         return new FiltersViewHolder(view);
     }
 
@@ -61,8 +61,9 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
 
         public FiltersViewHolder(@NonNull View itemView) {
             super(itemView);
-            filterImage = itemView.findViewById(R.id.image_filters);
+            filterImage = itemView.findViewById(R.id.image_item);
             filterTitle = itemView.findViewById(R.id.text_filters);
+            filterTitle.setVisibility(View.VISIBLE);
             filterImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
