@@ -137,7 +137,6 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
             if (filter == null) continue;
             d.setImage(filter.processFilter(img));
         }
-
     }
 
     private String createBitmapAndApplyFilter(String imagePath, Filter filter){

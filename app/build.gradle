@@ -39,6 +39,7 @@ dependencies {
     implementation project(':photofilterssdk')
 
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

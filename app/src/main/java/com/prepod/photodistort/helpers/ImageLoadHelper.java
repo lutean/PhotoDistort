@@ -16,6 +16,7 @@ public class ImageLoadHelper {
 
     public static List<ImageItem> getImages(ContentResolver contentResolver){
 
+
         List<ImageItem> imageList = new ArrayList<ImageItem>();
         String[] cols = {MediaStore.Images.Thumbnails.IMAGE_ID, MediaStore.Images.Thumbnails.DATA};
 

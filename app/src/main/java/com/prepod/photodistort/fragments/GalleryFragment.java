@@ -1,28 +1,30 @@
 package com.prepod.photodistort.fragments;
 
 import android.Manifest;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.helpers.GalleryAdapter;
+import com.prepod.photodistort.helpers.GalleryViewModel;
 import com.prepod.photodistort.models.ImageItem;
 import com.prepod.photodistort.helpers.ImageLoadHelper;
 import com.prepod.photodistort.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryFragment extends BaseFragment implements GalleryAdapter.GalleryInteractionListener {
@@ -38,7 +40,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     private RecyclerView mPhotoGridRecycler;
     private GridLayoutManager gridLayoutManager;
     private GalleryAdapter galleryAdapter;
-    private List<ImageItem> imageItems;
+    private List<ImageItem> imageItemList = new ArrayList<>();
     private OnCapturePictureListener onCapturePictureListener;
 
     public GalleryFragment() {
@@ -68,6 +70,8 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        GalleryViewModel model = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        LiveData<List<ImageItem>> imagesData = model.getImagesData();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
         mPhotoGridRecycler.setHasFixedSize(true);
@@ -77,9 +81,17 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
             requestStoragePermission();
             return;
         }
-        imageItems = ImageLoadHelper.getImages(getActivity().getContentResolver());
-        galleryAdapter = new GalleryAdapter(getActivity(), imageItems, this);
+        galleryAdapter = new GalleryAdapter(getActivity(), imageItemList, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
+        imagesData.observe(this, new Observer<List<ImageItem>>() {
+            @Override
+            public void onChanged(@Nullable List<ImageItem> imageItems) {
+                if (imageItems != null) {
+                    imageItemList.addAll(imageItems);
+                    galleryAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 
@@ -108,9 +120,6 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     public void onImageClick(ImageItem imageItem) {
         String path = ImageLoadHelper.getFullImage(getActivity().getContentResolver(), imageItem.getImageId());
         onCapturePictureListener.onCapture(path);
-       /* getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, FiltersFragment.newInstance(imageItem.getImageThumbPath()))
-                .commit();*/
     }
 
     @Override
