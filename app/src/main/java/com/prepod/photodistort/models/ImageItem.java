@@ -7,25 +7,25 @@ import android.net.Uri;
  */
 public class ImageItem {
 
-    private String imageId;
+    private long imageId;
     private String imageThumbPath;
     private Uri imageUri;
 
-    public ImageItem(String imageId, String imageThumbUri) {
+    public ImageItem(long imageId, String imageThumbUri) {
         this(imageId, imageThumbUri, null);
     }
 
-    public ImageItem(String imageId, String imageThumbPath, Uri imageUri) {
+    public ImageItem(long imageId, String imageThumbPath, Uri imageUri) {
         this.imageId = imageId;
         this.imageThumbPath = imageThumbPath;
         this.imageUri = imageUri;
     }
 
-    public String getImageId() {
+    public long getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public void setImageId(long imageId) {
         this.imageId = imageId;
     }
 

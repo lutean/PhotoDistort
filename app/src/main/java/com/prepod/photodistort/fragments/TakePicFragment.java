@@ -570,7 +570,7 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
 //                    showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
-                    onCapturePictureListener.onCapture();
+                    onCapturePictureListener.onCapture(mFile.getAbsolutePath());
                     PhotoDistort.getInstatnse().getUiHandler().post(new Runnable() {
                         @Override
                         public void run() {

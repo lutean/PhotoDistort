@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
+import com.prepod.photodistort.Const;
 import com.prepod.photodistort.Distortable;
 import com.prepod.photodistort.models.FilterItem;
 import com.prepod.photodistort.helpers.FiltersAdapter;
@@ -38,8 +39,6 @@ import java.util.List;
 
 
 public class FiltersFragment extends Fragment implements View.OnClickListener, FiltersAdapter.OnFilterClickListener {
-
-    private static final String KEY_PATH = "path";
 
     private ImageView resultImage;
     private String imagePath;
@@ -70,7 +69,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     public static FiltersFragment newInstance(String path) {
         FiltersFragment filtersFragment = new FiltersFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(KEY_PATH, path);
+        bundle.putString(Const.KEY_EXTRA_PATH, path);
         filtersFragment.setArguments(bundle);
         return filtersFragment;
     }
@@ -79,10 +78,9 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            imagePath = getArguments().getString(KEY_PATH);
+            imagePath = getArguments().getString(Const.KEY_EXTRA_PATH);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

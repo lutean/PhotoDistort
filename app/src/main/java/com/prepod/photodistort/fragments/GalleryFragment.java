@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.helpers.GalleryAdapter;
 import com.prepod.photodistort.models.ImageItem;
 import com.prepod.photodistort.helpers.ImageLoadHelper;
@@ -38,6 +39,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     private GridLayoutManager gridLayoutManager;
     private GalleryAdapter galleryAdapter;
     private List<ImageItem> imageItems;
+    private OnCapturePictureListener onCapturePictureListener;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -78,8 +80,9 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
         imageItems = ImageLoadHelper.getImages(getActivity().getContentResolver());
         galleryAdapter = new GalleryAdapter(getActivity(), imageItems, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
-
     }
+
+
 
     private void requestStoragePermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -92,15 +95,19 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        onCapturePictureListener = (OnCapturePictureListener) context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        onCapturePictureListener = null;
     }
 
     @Override
     public void onImageClick(ImageItem imageItem) {
+        String path = ImageLoadHelper.getFullImage(getActivity().getContentResolver(), imageItem.getImageId());
+        onCapturePictureListener.onCapture(path);
        /* getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, FiltersFragment.newInstance(imageItem.getImageThumbPath()))
                 .commit();*/

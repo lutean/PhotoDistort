@@ -29,15 +29,15 @@ public class ImageLoadHelper {
 
             while (cursorThumb.moveToNext()) {
                 String thumb = cursorThumb.getString(thumbColumnIndex);
-                long id = cursorThumb.getLong(cursorThumb.getColumnIndex(MediaStore.Images.Thumbnails.IMAGE_ID));
+                long id = cursorThumb.getLong(idColumnIndex);
 //                Uri contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-                imageList.add(new ImageItem("", thumb));
+                imageList.add(new ImageItem(id, thumb));
             }
 
         return imageList;
     }
 
-    public static Uri getFullImage(ContentResolver contentResolver, String imageId){
+    public static String getFullImage(ContentResolver contentResolver, long imageId){
 
         String[] cols = {MediaStore.Images.Media.DATA};
 
@@ -45,17 +45,17 @@ public class ImageLoadHelper {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 cols,
                 MediaStore.Images.Media._ID + "=?",
-                new String[] {imageId},
+                new String[] {String.valueOf(imageId)},
                 null);
         int imageColumn = cursor.getColumnIndex(cols[0]);
         if (cursor.moveToNext()) {
-                String fullImageUri = cursor.getString(imageColumn);
+                String fullImagePath = cursor.getString(imageColumn);
                 cursor.close();
                // return Uri.parse("content://" + fullImageUri);
-                return Uri.parse(fullImageUri);
+                return fullImagePath;
         } else {
             cursor.close();
-            return Uri.parse("");
+            return "";
         }
     }
 
