@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.RecyclerViewHolder>  {
 
-    interface GalleryInteractionListener{
+    public interface GalleryInteractionListener{
         void onImageClick(ImageItem imageItem);
     }
 

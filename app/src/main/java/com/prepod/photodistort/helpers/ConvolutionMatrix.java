@@ -6,13 +6,13 @@ import android.graphics.Color;
 /**
  * Created by Anton on 13.10.2018.
  */
-class ConvolutionMatrix {
+public class ConvolutionMatrix {
     private static final int SIZE = 3;
     public double[][] Matrix;
     public double Factor = 1;
     public double Offset = 1;
 
-    ConvolutionMatrix(int size) {
+    public ConvolutionMatrix(int size) {
         Matrix = new double[size][size];
     }
 
