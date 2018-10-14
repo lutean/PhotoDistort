@@ -6,7 +6,7 @@
 
     <string-array name="main_tab_titles">
         <item>Photo</item>
-        <item>Galley</item>
+        <item>Gallery</item>
     </string-array>
 
 </resources>

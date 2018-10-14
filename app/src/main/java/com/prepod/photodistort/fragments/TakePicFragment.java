@@ -56,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Anton on 13.10.2018.
  */
-public class TakePicFragment extends Fragment implements View.OnClickListener {
+public class TakePicFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = TakePicFragment.class.getSimpleName();
     /**

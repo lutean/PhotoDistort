@@ -10,9 +10,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.prepod.photodistort.helpers.GalleryAdapter;
 import com.prepod.photodistort.models.ImageItem;
@@ -21,7 +24,7 @@ import com.prepod.photodistort.R;
 
 import java.util.List;
 
-public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryInteractionListener {
+public class GalleryFragment extends BaseFragment implements GalleryAdapter.GalleryInteractionListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -75,6 +78,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
         imageItems = ImageLoadHelper.getImages(getActivity().getContentResolver());
         galleryAdapter = new GalleryAdapter(getActivity(), imageItems, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
+
     }
 
     private void requestStoragePermission() {
@@ -113,6 +117,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
 
 
 }
