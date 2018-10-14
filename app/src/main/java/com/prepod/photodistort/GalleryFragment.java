@@ -78,7 +78,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
 
     private void requestStoragePermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
+//            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
         } else {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_STORAGE_REQUEST);
         }

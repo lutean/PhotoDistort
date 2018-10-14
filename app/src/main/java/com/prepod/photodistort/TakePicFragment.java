@@ -43,6 +43,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -226,9 +227,9 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
             }
         }
         if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CameraFragment.CompareSizesByArea());
+            return Collections.min(bigEnough, new CompareSizesByArea());
         } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new CameraFragment.CompareSizesByArea());
+            return Collections.max(notBigEnough, new CompareSizesByArea());
         } else {
             Log.e(TAG, "Couldn't find any suitable preview size");
             return choices[0];
@@ -332,7 +333,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
             if (streamConfigurationMap == null) continue;
 
             Size largest = Collections.max(Arrays.asList(streamConfigurationMap.getOutputSizes(ImageFormat.JPEG)),
-                    new CameraFragment.CompareSizesByArea());
+                    new CompareSizesByArea());
             mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
                     ImageFormat.JPEG, 2);
             mImageReader.setOnImageAvailableListener(
@@ -511,7 +512,7 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
 
     private void requestCameraPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
+//            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
         } else {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSIONS_CAMERA_REQUEST);
         }
@@ -619,13 +620,24 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    static class CompareSizesByArea implements Comparator<Size> {
+
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            // We cast here to ensure the multiplications won't overflow
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_CAMERA_REQUEST) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                CameraFragment.ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(getChildFragmentManager(), "dialog");
+//                CameraFragment.ErrorDialog.newInstance(getString(R.string.request_permission))
+//                        .show(getChildFragmentManager(), "dialog");
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

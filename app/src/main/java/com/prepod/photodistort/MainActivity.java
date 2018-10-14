@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         if (null == savedInstanceState) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, TakePicFragment.newInstance())
+                    .replace(R.id.container, GalleryFragment.newInstance("", ""))
                     .commit();
         }
 
