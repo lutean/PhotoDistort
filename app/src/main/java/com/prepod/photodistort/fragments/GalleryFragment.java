@@ -40,12 +40,8 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
         // Required empty public constructor
     }
 
-    public static GalleryFragment newInstance(String param1, String param2) {
+    public static GalleryFragment newInstance() {
         GalleryFragment fragment = new GalleryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -101,9 +97,9 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.GalleryI
 
     @Override
     public void onImageClick(ImageItem imageItem) {
-        getActivity().getSupportFragmentManager().beginTransaction()
+       /* getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, FiltersFragment.newInstance(imageItem.getImageThumbPath()))
-                .commit();
+                .commit();*/
     }
 
     @Override

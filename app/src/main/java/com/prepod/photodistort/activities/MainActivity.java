@@ -1,22 +1,31 @@
 package com.prepod.photodistort.activities;
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.prepod.photodistort.R;
-import com.prepod.photodistort.fragments.TakePicFragment;
+import com.prepod.photodistort.helpers.MainTabsAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ViewPager mainPager;
+    private MainTabsAdapter mainTabsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, TakePicFragment.newInstance())
-                    .commit();
-        }
+
+        mainPager = findViewById(R.id.pager_main);
+
+        mainTabsAdapter = new MainTabsAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.main_tab_titles));
+
+        mainPager.setAdapter(mainTabsAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.tablayout_main);
+        tabLayout.setupWithViewPager(mainPager);
 
     }
 }

@@ -559,9 +559,9 @@ public class TakePicFragment extends Fragment implements View.OnClickListener {
                     PhotoDistort.getInstatnse().getUiHandler().post(new Runnable() {
                         @Override
                         public void run() {
-                            getActivity().getSupportFragmentManager().beginTransaction()
+                           /* getActivity().getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, FiltersFragment.newInstance(getActivity().getExternalFilesDir(null) + "/photo.jpg"))
-                                    .commit();
+                                    .commit();*/
                         }
                     });
                 }
