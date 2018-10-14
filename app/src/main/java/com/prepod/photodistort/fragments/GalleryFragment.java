@@ -3,7 +3,6 @@ package com.prepod.photodistort.fragments;
 import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -42,6 +41,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     private GalleryAdapter galleryAdapter;
     private List<ImageItem> imageItemList = new ArrayList<>();
     private OnCapturePictureListener onCapturePictureListener;
+    private GalleryViewModel galleryViewModel;
 
     public GalleryFragment() {
         // Required empty public constructor
@@ -70,8 +70,8 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        GalleryViewModel model = ViewModelProviders.of(this).get(GalleryViewModel.class);
-        LiveData<List<ImageItem>> imagesData = model.getImagesData();
+        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        LiveData<List<ImageItem>> imagesData = galleryViewModel.getImagesData();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
         mPhotoGridRecycler.setHasFixedSize(true);
@@ -117,9 +117,14 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     }
 
     @Override
-    public void onImageClick(ImageItem imageItem) {
-        String path = ImageLoadHelper.getFullImage(getActivity().getContentResolver(), imageItem.getImageId());
-        onCapturePictureListener.onCapture(path);
+    public void onImageClick(final ImageItem imageItem) {
+        LiveData<String> fullImageData = galleryViewModel.getFullImage(imageItem.getImageId());
+        fullImageData.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                onCapturePictureListener.onCapture(s);
+            }
+        });
     }
 
     @Override

@@ -59,4 +59,10 @@ public class GalleryViewModel extends AndroidViewModel {
         });
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        if (dispatchThread != null)
+            dispatchThread.interrupt();
+    }
 }
