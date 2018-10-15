@@ -1,18 +1,16 @@
 package com.prepod.photodistort.activities;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.R;
-import com.prepod.photodistort.helpers.MainTabsAdapter;
+import com.prepod.photodistort.views.MainTabsAdapter;
 
 public class MainActivity extends AppCompatActivity implements OnCapturePictureListener {
 

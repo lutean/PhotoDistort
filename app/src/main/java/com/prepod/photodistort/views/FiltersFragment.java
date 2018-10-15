@@ -1,13 +1,10 @@
-package com.prepod.photodistort.fragments;
+package com.prepod.photodistort.views;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,18 +24,11 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.prepod.photodistort.Const;
-import com.prepod.photodistort.Distortable;
-import com.prepod.photodistort.helpers.FiltersViewModel;
-import com.prepod.photodistort.helpers.GalleryViewModel;
-import com.prepod.photodistort.models.FilterItem;
-import com.prepod.photodistort.helpers.FiltersAdapter;
 import com.prepod.photodistort.R;
-import com.zomato.photofilters.SampleFilters;
+import com.prepod.photodistort.models.FilterItem;
 import com.zomato.photofilters.imageprocessors.Filter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +44,6 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     private Bitmap filteredImage;
     private FiltersViewModel filtersViewModel;
     private FiltersAdapter filtersAdapter;
-
-    public FiltersFragment() {
-        // Required empty public constructor
-    }
-
     @SuppressLint("HandlerLeak")
     private Handler myHandler = new Handler() {
         @Override
@@ -72,6 +57,10 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
             }
         }
     };
+
+    public FiltersFragment() {
+        // Required empty public constructor
+    }
 
     public static FiltersFragment newInstance(String path) {
         FiltersFragment filtersFragment = new FiltersFragment();

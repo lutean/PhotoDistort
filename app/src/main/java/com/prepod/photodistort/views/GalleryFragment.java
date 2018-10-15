@@ -1,8 +1,7 @@
-package com.prepod.photodistort.fragments;
+package com.prepod.photodistort.views;
 
 import android.Manifest;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -17,10 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.prepod.photodistort.OnCapturePictureListener;
-import com.prepod.photodistort.helpers.GalleryAdapter;
-import com.prepod.photodistort.helpers.GalleryViewModel;
-import com.prepod.photodistort.models.ImageItem;
 import com.prepod.photodistort.R;
+import com.prepod.photodistort.models.ImageItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +114,6 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
-
 
 
 }

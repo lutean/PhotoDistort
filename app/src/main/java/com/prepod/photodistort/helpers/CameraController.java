@@ -38,7 +38,6 @@ import com.prepod.photodistort.AutoFitTextureView;
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.PhotoDistort;
-import com.prepod.photodistort.fragments.TakePicFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -100,29 +99,6 @@ public class CameraController implements LifecycleObserver {
     private int mSensorOrientation;
     private OnCapturePictureListener onCapturePictureListener;
     private Activity activity;
-
-
-    private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-            openCamera(i, i1);
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-            configureTransform(i, i1);
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
-        }
-    };
     private CameraCaptureSession.CaptureCallback mCaptureCallback
             = new CameraCaptureSession.CaptureCallback() {
 
@@ -208,53 +184,32 @@ public class CameraController implements LifecycleObserver {
             }
         }
     };
+    private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
+            openCamera(i, i1);
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
+            configureTransform(i, i1);
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+        }
+    };
 
     public CameraController(Activity activity) {
         this.mTextureView = mTextureView;
         mFile = new File(activity.getExternalFilesDir(null), "photo.jpg");
         this.activity = activity;
-    }
-
-    private Activity getActivity(){
-        return activity;
-    }
-
-    public void setTextureView(AutoFitTextureView autoFitTextureView){
-        this.mTextureView = autoFitTextureView;
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void start(){
-        startBackgroundThread();
-        if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
-        } else {
-            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-        }
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    public void stop(){
-        closeCamera();
-        stopBackgroundThread();
-    }
-
-    public void setOnCapturePictureListener(OnCapturePictureListener onCapturePictureListener){
-        this.onCapturePictureListener = onCapturePictureListener;
-    }
-
-    public void removeOnCapturePictureListener(){
-        this.onCapturePictureListener = null;
-    }
-
-    public void switchCam(){
-        closeCamera();
-        mCameraKind = mCameraKind == CameraKind.FRONT ? CameraKind.BACK : CameraKind.FRONT;
-        if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
-        } else {
-            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-        }
     }
 
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
@@ -282,6 +237,48 @@ public class CameraController implements LifecycleObserver {
         } else {
             Log.e(TAG, "Couldn't find any suitable preview size");
             return choices[0];
+        }
+    }
+
+    private Activity getActivity() {
+        return activity;
+    }
+
+    public void setTextureView(AutoFitTextureView autoFitTextureView) {
+        this.mTextureView = autoFitTextureView;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void start() {
+        startBackgroundThread();
+        if (mTextureView.isAvailable()) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        } else {
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void stop() {
+        closeCamera();
+        stopBackgroundThread();
+    }
+
+    public void setOnCapturePictureListener(OnCapturePictureListener onCapturePictureListener) {
+        this.onCapturePictureListener = onCapturePictureListener;
+    }
+
+    public void removeOnCapturePictureListener() {
+        this.onCapturePictureListener = null;
+    }
+
+    public void switchCam() {
+        closeCamera();
+        mCameraKind = mCameraKind == CameraKind.FRONT ? CameraKind.BACK : CameraKind.FRONT;
+        if (mTextureView.isAvailable()) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        } else {
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
     }
 
@@ -336,7 +333,7 @@ public class CameraController implements LifecycleObserver {
 
             Size[] sizes = streamConfigurationMap.getOutputSizes(ImageFormat.JPEG);
             List<Size> newSizes = new ArrayList<>();
-            for (int i = 0; i < sizes.length; i++){
+            for (int i = 0; i < sizes.length; i++) {
                 if (sizes[i].getHeight() == sizes[i].getWidth())
                     newSizes.add(sizes[i]);
             }
@@ -617,17 +614,6 @@ public class CameraController implements LifecycleObserver {
         }
     }
 
-    static class CompareSizesByArea implements Comparator<Size> {
-
-        @Override
-        public int compare(Size lhs, Size rhs) {
-            // We cast here to ensure the multiplications won't overflow
-            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                    (long) rhs.getWidth() * rhs.getHeight());
-        }
-
-    }
-
     private enum CameraKind {
         FRONT,
         BACK
@@ -639,6 +625,17 @@ public class CameraController implements LifecycleObserver {
         STATE_WAITING_PRECAPTURE,
         STATE_WAITING_NON_PRECAPTURE,
         STATE_PICTURE_TAKEN
+    }
+
+    static class CompareSizesByArea implements Comparator<Size> {
+
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            // We cast here to ensure the multiplications won't overflow
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+
     }
 
     private static class ImageSaver implements Runnable {

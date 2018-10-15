@@ -37,30 +37,30 @@ public class BitmapHelper {
     }
 
     public static String createBitmapAndApplyFilter(Context context, String imagePath, Filter filter) {
-            if (imagePath == null) return "";
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            options.inDither = true;
-            options.inSampleSize = 3;
-            try {
-                Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-                if (bmp == null) return "";
-                int mult = Math.abs(bmp.getWidth() / 512);
-                if (mult == 0) mult = 1;
-                bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
-                if (filter != null)
-                    applyFilter(bmp, filter);
-                File file = new File(context.getExternalFilesDir(null), "photo_distorted.jpg");
+        if (imagePath == null) return "";
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inDither = true;
+        options.inSampleSize = 3;
+        try {
+            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
+            if (bmp == null) return "";
+            int mult = Math.abs(bmp.getWidth() / 512);
+            if (mult == 0) mult = 1;
+            bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
+            if (filter != null)
+                applyFilter(bmp, filter);
+            File file = new File(context.getExternalFilesDir(null), "photo_distorted.jpg");
 
-                bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(file));
-                return file.getAbsolutePath();
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            return "";
+            bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(file));
+            return file.getAbsolutePath();
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private static Bitmap applyFilter(Bitmap bitmap, Filter filter) {

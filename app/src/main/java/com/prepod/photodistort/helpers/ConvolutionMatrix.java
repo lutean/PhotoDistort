@@ -16,20 +16,6 @@ public class ConvolutionMatrix {
         Matrix = new double[size][size];
     }
 
-    public void setAll(double value) {
-        for (int x = 0; x < SIZE; ++x) {
-            for (int y = 0; y < SIZE; ++y) {
-                Matrix[x][y] = value;
-            }
-        }
-    }
-
-    public void applyConfig(double[][] config) {
-        for (int x = 0; x < SIZE; ++x) {
-            System.arraycopy(config[x], 0, Matrix[x], 0, SIZE);
-        }
-    }
-
     public static Bitmap computeConvolution3x3(Bitmap src, ConvolutionMatrix matrix) {
         int width = src.getWidth();
         int height = src.getHeight();
@@ -75,5 +61,19 @@ public class ConvolutionMatrix {
             }
         }
         return result;
+    }
+
+    public void setAll(double value) {
+        for (int x = 0; x < SIZE; ++x) {
+            for (int y = 0; y < SIZE; ++y) {
+                Matrix[x][y] = value;
+            }
+        }
+    }
+
+    public void applyConfig(double[][] config) {
+        for (int x = 0; x < SIZE; ++x) {
+            System.arraycopy(config[x], 0, Matrix[x], 0, SIZE);
+        }
     }
 }

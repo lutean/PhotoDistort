@@ -1,11 +1,8 @@
-package com.prepod.photodistort.helpers;
+package com.prepod.photodistort.views;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import com.prepod.photodistort.fragments.GalleryFragment;
-import com.prepod.photodistort.fragments.TakePicFragment;
 
 public class MainTabsAdapter extends FragmentStatePagerAdapter {
 

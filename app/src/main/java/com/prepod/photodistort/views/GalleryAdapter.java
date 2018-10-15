@@ -1,4 +1,4 @@
-package com.prepod.photodistort.helpers;
+package com.prepod.photodistort.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -20,16 +20,11 @@ import java.util.List;
 /**
  * Created by Anton on 13.10.2018.
  */
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.RecyclerViewHolder>  {
-
-    public interface GalleryInteractionListener{
-        void onImageClick(ImageItem imageItem);
-    }
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.RecyclerViewHolder> {
 
     private List<ImageItem> imageItems;
     private GalleryInteractionListener galleryInteractionListener;
     private RequestManager mGlide;
-
     public GalleryAdapter(Context context, List<ImageItem> imageItems, GalleryInteractionListener galleryInteractionListener) {
         this.imageItems = imageItems;
         this.galleryInteractionListener = galleryInteractionListener;
@@ -55,7 +50,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.Recycler
         return imageItems.size();
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    public interface GalleryInteractionListener {
+        void onImageClick(ImageItem imageItem);
+    }
+
+    class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView cardImage;
 

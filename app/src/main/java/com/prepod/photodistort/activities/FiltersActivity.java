@@ -1,13 +1,13 @@
 package com.prepod.photodistort.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.R;
-import com.prepod.photodistort.fragments.FiltersFragment;
+import com.prepod.photodistort.views.FiltersFragment;
 
 public class FiltersActivity extends AppCompatActivity {
 

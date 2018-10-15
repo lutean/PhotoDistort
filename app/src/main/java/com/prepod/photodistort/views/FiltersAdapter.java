@@ -1,4 +1,4 @@
-package com.prepod.photodistort.helpers;
+package com.prepod.photodistort.views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -20,14 +20,9 @@ import java.util.List;
 
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersViewHolder> {
 
-    public interface OnFilterClickListener{
-        void onFilterClick(int pos);
-    }
-
     private List<FilterItem> filterList;
     private RequestManager mGlide;
     private OnFilterClickListener onFilterClickListener;
-
     public FiltersAdapter(Context context, List<FilterItem> filterList, OnFilterClickListener onFilterClickListener) {
         this.filterList = filterList;
         mGlide = Glide.with(context);
@@ -54,7 +49,11 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
         return filterList.size();
     }
 
-    class FiltersViewHolder extends RecyclerView.ViewHolder{
+    public interface OnFilterClickListener {
+        void onFilterClick(int pos);
+    }
+
+    class FiltersViewHolder extends RecyclerView.ViewHolder {
 
         ImageView filterImage;
         TextView filterTitle;

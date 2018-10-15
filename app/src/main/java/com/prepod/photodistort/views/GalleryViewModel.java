@@ -1,4 +1,4 @@
-package com.prepod.photodistort.helpers;
+package com.prepod.photodistort.views;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -7,6 +7,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.ContentResolver;
 import android.support.annotation.NonNull;
 
+import com.prepod.photodistort.helpers.DispatchThread;
+import com.prepod.photodistort.helpers.ImageLoadHelper;
+import com.prepod.photodistort.helpers.SingleLiveEvent;
 import com.prepod.photodistort.models.ImageItem;
 
 import java.util.List;

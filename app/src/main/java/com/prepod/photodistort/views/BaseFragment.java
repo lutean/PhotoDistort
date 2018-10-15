@@ -1,4 +1,4 @@
-package com.prepod.photodistort.fragments;
+package com.prepod.photodistort.views;
 
 import android.support.v4.app.Fragment;
 
