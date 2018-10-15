@@ -457,6 +457,8 @@ public class CameraController implements LifecycleObserver {
                                         mCaptureCallback, mBackgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
+                            } catch (IllegalStateException e){
+                                e.printStackTrace();
                             }
                         }
 

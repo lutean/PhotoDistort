@@ -64,7 +64,7 @@ public class FiltersViewModel extends AndroidViewModel {
     }
 
     private void createBitmapAndApplyFilter(String imagePath, Filter filter) {
-        dispatchThread.postRunnable((Runnable) () -> {
+        dispatchThread.postRunnable(() -> {
             String result = BitmapHelper.createBitmapAndApplyFilter(getApplication(), imagePath, filter);
             filteredImage.postValue(result);
         });

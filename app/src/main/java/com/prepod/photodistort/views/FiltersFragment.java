@@ -99,7 +99,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .override(512, 512)).into(resultImage);
     }
-    
+
 
     @Override
     public void onClick(View view) {

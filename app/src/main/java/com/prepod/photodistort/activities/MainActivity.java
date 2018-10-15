@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.R;
+import com.prepod.photodistort.helpers.BitmapHelper;
 import com.prepod.photodistort.views.MainTabsAdapter;
 
 public class MainActivity extends AppCompatActivity implements OnCapturePictureListener {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnCapturePictureL
 
     @Override
     public void onCapture(String path) {
+        BitmapHelper.createBitmapAndApplyFilter(this, path, null);
         Intent intent = new Intent(this, FiltersActivity.class);
         intent.putExtra(Const.KEY_EXTRA_PATH, path);
         startActivity(intent);
