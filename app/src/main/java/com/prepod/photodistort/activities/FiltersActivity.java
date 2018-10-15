@@ -18,12 +18,7 @@ public class FiltersActivity extends AppCompatActivity {
 
         ImageView toolbarBtn = findViewById(R.id.image_toolbar);
         toolbarBtn.setVisibility(View.VISIBLE);
-        toolbarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbarBtn.setOnClickListener(view -> finish());
 
         if (getIntent().getExtras() != null) {
             String imagePath = getIntent().getStringExtra(Const.KEY_EXTRA_PATH);
@@ -33,6 +28,4 @@ public class FiltersActivity extends AppCompatActivity {
         }
 
     }
-
-
 }
