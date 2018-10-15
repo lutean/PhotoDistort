@@ -44,7 +44,7 @@ public class GalleryViewModel extends AndroidViewModel {
         dispatchThread.postRunnable(new Runnable() {
             @Override
             public void run() {
-                List<ImageItem> imageItems = ImageLoadHelper.getImages(contentResolver);
+                List<ImageItem> imageItems = ImageLoadHelper.addLocalItems(contentResolver);
                 imagesData.postValue(imageItems);
             }
         });

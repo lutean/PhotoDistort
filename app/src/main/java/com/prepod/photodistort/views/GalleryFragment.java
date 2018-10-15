@@ -108,11 +108,10 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_STORAGE_REQUEST) {
-            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-            }
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                init();
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            init();
         }
     }
 
