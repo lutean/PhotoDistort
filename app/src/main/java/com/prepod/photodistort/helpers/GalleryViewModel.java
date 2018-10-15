@@ -14,13 +14,14 @@ import java.util.List;
 public class GalleryViewModel extends AndroidViewModel {
 
     MutableLiveData<List<ImageItem>> imagesData;
-    MutableLiveData<String> fullImageData;
+    SingleLiveEvent<String> fullImageData;
     private DispatchThread dispatchThread = new DispatchThread("Gallery");
     private ContentResolver contentResolver;
 
     public GalleryViewModel(@NonNull Application application) {
         super(application);
         contentResolver = getApplication().getContentResolver();
+        fullImageData = new SingleLiveEvent<>();
     }
 
     public LiveData<List<ImageItem>> getImagesData() {
@@ -31,11 +32,8 @@ public class GalleryViewModel extends AndroidViewModel {
         return imagesData;
     }
 
-    public LiveData<String> getFullImage(long imageId){
-        if (fullImageData == null) {
-            fullImageData = new MutableLiveData<>();
-            loadFullImageData(imageId);
-        }
+    public LiveData<String> getFullImage(long imageId) {
+        loadFullImageData(imageId);
         return fullImageData;
     }
 
@@ -49,7 +47,7 @@ public class GalleryViewModel extends AndroidViewModel {
         });
     }
 
-    private void loadFullImageData(final long imageId){
+    private void loadFullImageData(final long imageId) {
         dispatchThread.postRunnable(new Runnable() {
             @Override
             public void run() {

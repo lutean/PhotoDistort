@@ -92,6 +92,8 @@ public class Filter {
                         outputImage = subFilter.process(outputImage);
                     } catch (OutOfMemoryError ignored) {
                     }
+                } catch (IllegalStateException e){
+                    e.printStackTrace();
                 }
             }
         }

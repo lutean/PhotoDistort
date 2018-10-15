@@ -20,7 +20,6 @@ import com.prepod.photodistort.OnCapturePictureListener;
 import com.prepod.photodistort.helpers.GalleryAdapter;
 import com.prepod.photodistort.helpers.GalleryViewModel;
 import com.prepod.photodistort.models.ImageItem;
-import com.prepod.photodistort.helpers.ImageLoadHelper;
 import com.prepod.photodistort.R;
 
 import java.util.ArrayList;
@@ -83,13 +82,10 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
         }
         galleryAdapter = new GalleryAdapter(getActivity(), imageItemList, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
-        imagesData.observe(this, new Observer<List<ImageItem>>() {
-            @Override
-            public void onChanged(@Nullable List<ImageItem> imageItems) {
-                if (imageItems != null) {
-                    imageItemList.addAll(imageItems);
-                    galleryAdapter.notifyDataSetChanged();
-                }
+        imagesData.observe(this, imageItems -> {
+            if (imageItems != null) {
+                imageItemList.addAll(imageItems);
+                galleryAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -119,12 +115,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onImageClick(final ImageItem imageItem) {
         LiveData<String> fullImageData = galleryViewModel.getFullImage(imageItem.getImageId());
-        fullImageData.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                onCapturePictureListener.onCapture(s);
-            }
-        });
+        fullImageData.observe(this, s -> onCapturePictureListener.onCapture(s));
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.prepod.photodistort.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -25,6 +28,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.Distortable;
+import com.prepod.photodistort.helpers.FiltersViewModel;
+import com.prepod.photodistort.helpers.GalleryViewModel;
 import com.prepod.photodistort.models.FilterItem;
 import com.prepod.photodistort.helpers.FiltersAdapter;
 import com.prepod.photodistort.R;
@@ -44,9 +49,11 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     private String imagePath;
     private RequestManager mGlide;
     private RecyclerView filtersLsit;
-    private List<FilterItem> filterItems;
+    private List<FilterItem> filterItemList = new ArrayList<>();
     private Bitmap originalImage;
     private Bitmap filteredImage;
+    private FiltersViewModel filtersViewModel;
+    private FiltersAdapter filtersAdapter;
 
     public FiltersFragment() {
         // Required empty public constructor
@@ -93,97 +100,35 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
         super.onViewCreated(view, savedInstanceState);
         resultImage = view.findViewById(R.id.image_item);
         filtersLsit = view.findViewById(R.id.recycler_filters);
+        filtersViewModel = ViewModelProviders.of(this).get(FiltersViewModel.class);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         filtersLsit.setLayoutManager(layoutManager);
         filtersLsit.setHasFixedSize(true);
-        if (filterItems == null)
-            filterItems = createFiltersPreviewList(imagePath);
-        FiltersAdapter filtersAdapter = new FiltersAdapter(getActivity(), filterItems, this);
+        filtersAdapter = new FiltersAdapter(getActivity(), filterItemList, this);
         filtersLsit.setAdapter(filtersAdapter);
+
+        filtersViewModel.createFiltersPreviewList(imagePath).observe(this, filterItems -> {
+            if (filterItems != null) {
+                filterItemList.addAll(filterItems);
+                filtersAdapter.notifyDataSetChanged();
+            }
+        });
 
         mGlide = Glide.with(getActivity());
         loadImage(imagePath);
     }
 
-    private void loadImage(String imagePath){
+    private void loadImage(String imagePath) {
         File file = new File(imagePath);
         mGlide.load(file).apply(new RequestOptions().centerCrop()
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .override(512, 512)).into(resultImage);
     }
 
-    private List<FilterItem> createFiltersPreviewList(String imagePath) {
-        List<FilterItem> filterItems = new ArrayList<>();
-        //Bitmap result = createBitmap(imagePath);
-        filterItems.add(new FilterItem(createBitmap(imagePath), null, "Normal"));
-        filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getStarLitFilter(), "Starlit"));
-        filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getBlueMessFilter(), "Bluemess"));
-        filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getAweStruckVibeFilter(), "Awestruckvibe"));
-        filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getLimeStutterFilter(), "Lime"));
-        filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getNightWhisperFilter(), "Night Wisper"));
-        applyFilters(filterItems);
-        return filterItems;
-    }
 
-    private Bitmap applyFilter(Bitmap bitmap, Filter filter){
+    private Bitmap applyFilter(Bitmap bitmap, Filter filter) {
         return filter.processFilter(bitmap);
-    }
-
-    private <T extends Distortable> void applyFilters(List<T> items) {
-        for (Distortable d : items) {
-            Bitmap img = d.getImage();
-            Filter filter = d.getFilter();
-            if (filter == null) continue;
-            d.setImage(filter.processFilter(img));
-        }
-    }
-
-    private String createBitmapAndApplyFilter(String imagePath, Filter filter){
-        if (imagePath == null) return null;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inDither = true;
-        options.inSampleSize = 3;
-        try {
-            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-            if (bmp == null) return null;
-            int mult = bmp.getWidth() / 512;
-            bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
-            if (filter != null)
-                applyFilter(bmp, filter);
-            File file = new File(getActivity().getExternalFilesDir(null), "photo_distorted.jpg");
-
-            bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(file));
-            return file.getAbsolutePath();
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private Bitmap createBitmap(String imagePath) {
-        if (imagePath == null) return null;
-        Activity activity = getActivity();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inDither = true;
-        options.inSampleSize = 3;
-        try {
-            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-            if (bmp == null) return null;
-            float size = activity.getResources().getDimension(R.dimen.filters_preview_img_size);
-            int mult = bmp.getWidth() / (int) size;
-//            bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(imagePath));
-            return Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 
@@ -218,7 +163,8 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
 
     @Override
     public void onFilterClick(int pos) {
-        String path = createBitmapAndApplyFilter(imagePath, filterItems.get(pos).getFilter());
-        loadImage(path);
+        LiveData<String> fullImageData = filtersViewModel
+                .getFilteredImage(imagePath, filterItemList.get(pos).getFilter());
+        fullImageData.observe(this, this::loadImage);
     }
 }
