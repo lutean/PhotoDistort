@@ -3,6 +3,7 @@ package com.prepod.photodistort.helpers;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.prepod.photodistort.models.ImageItem;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.MediaStore.Images.Media.query;
+import static android.support.constraint.Constraints.TAG;
 
 public class ImageLoadHelper {
 
@@ -30,6 +32,7 @@ public class ImageLoadHelper {
             long id = cursorThumb.getLong(idColumnIndex);
             imageList.add(new ImageItem(id, thumb));
         }
+        cursorThumb.close();
         return imageList;
     }
 
