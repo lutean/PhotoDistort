@@ -50,76 +50,29 @@ public class FiltersViewModel extends AndroidViewModel {
     private void createList(final String imagePath) {
         dispatchThread.postRunnable(() -> {
             List<FilterItem> filterItems = new ArrayList<>();
-            filterItems.add(new FilterItem(createBitmap(imagePath), null, "Normal"));
-            filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getStarLitFilter(), "Starlit"));
-            filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getBlueMessFilter(), "Bluemess"));
-            filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getAweStruckVibeFilter(), "Awestruckvibe"));
-            filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getLimeStutterFilter(), "Lime"));
-            filterItems.add(new FilterItem(createBitmap(imagePath), SampleFilters.getNightWhisperFilter(), "Night Wisper"));
-            applyFilters(filterItems);
+            filterItems.add(createFilterItem(imagePath, null, "Normal"));
+            filterItems.add(createFilterItem(imagePath, SampleFilters.getStarLitFilter(), "Starlit"));
+            filterItems.add(createFilterItem(imagePath, SampleFilters.getBlueMessFilter(), "Bluemess"));
+            filterItems.add(createFilterItem(imagePath, SampleFilters.getAweStruckVibeFilter(), "Awestruckvibe"));
+            filterItems.add(createFilterItem(imagePath, SampleFilters.getLimeStutterFilter(), "Lime"));
+            filterItems.add(createFilterItem(imagePath, SampleFilters.getNightWhisperFilter(), "Night Wisper"));
+            BitmapHelper.applyFilters(filterItems);
             filterItemsData.postValue(filterItems);
         });
+    }
+
+    private FilterItem createFilterItem(String path, Filter filter, String filterName){
+        return new FilterItem(BitmapHelper.createBitmap(getApplication(), path), filter, filterName);
     }
 
     private Bitmap applyFilter(Bitmap bitmap, Filter filter) {
         return filter.processFilter(bitmap);
     }
 
-    private <T extends Distortable> void applyFilters(List<T> items) {
-        for (Distortable d : items) {
-            Bitmap img = d.getImage();
-            Filter filter = d.getFilter();
-            if (filter == null) continue;
-            d.setImage(filter.processFilter(img));
-        }
-    }
-
-    private Bitmap createBitmap(String imagePath) {
-        if (imagePath == null) return null;
-        Context activity = getApplication();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = false;
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inDither = true;
-        options.inSampleSize = 3;
-        try {
-            Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-            if (bmp == null) return null;
-            float size = activity.getResources().getDimension(R.dimen.filters_preview_img_size);
-            int mult = Math.abs(bmp.getWidth() / (int) size);
-            if (mult == 0) mult = 1;
-            return Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     private void createBitmapAndApplyFilter(String imagePath, Filter filter) {
         dispatchThread.postRunnable((Runnable) () -> {
-            if (imagePath == null) return;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = false;
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            options.inDither = true;
-            options.inSampleSize = 3;
-            try {
-                Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
-                if (bmp == null) return;
-                int mult = Math.abs(bmp.getWidth() / 512);
-                if (mult == 0) mult = 1;
-                bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth() / mult, bmp.getHeight() / mult, false);
-                if (filter != null)
-                    applyFilter(bmp, filter);
-                File file = new File(getApplication().getExternalFilesDir(null), "photo_distorted.jpg");
-
-                bmp.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(file));
-                filteredImage.postValue(file.getAbsolutePath());
-            } catch (OutOfMemoryError e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+                String result = BitmapHelper.createBitmapAndApplyFilter(getApplication(), imagePath, filter);
+                filteredImage.postValue(result);
         });
 
     }

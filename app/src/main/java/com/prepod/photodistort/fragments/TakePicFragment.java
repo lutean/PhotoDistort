@@ -356,7 +356,8 @@ public class TakePicFragment extends BaseFragment implements View.OnClickListene
                 if (sizes[i].getHeight() == sizes[i].getWidth())
                     newSizes.add(sizes[i]);
             }
-            Size largest = Collections.max(newSizes,
+            Size largest = newSizes.isEmpty() ? Collections.max(Arrays.asList(sizes),
+                    new CompareSizesByArea()) : Collections.max(newSizes,
                     new CompareSizesByArea());
 
             mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),

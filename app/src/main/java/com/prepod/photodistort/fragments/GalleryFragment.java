@@ -27,14 +27,7 @@ import java.util.List;
 
 public class GalleryFragment extends BaseFragment implements GalleryAdapter.GalleryInteractionListener {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private final int PERMISSIONS_STORAGE_REQUEST = 13;
-
-
-    private String mParam1;
-    private String mParam2;
-
     private RecyclerView mPhotoGridRecycler;
     private GridLayoutManager gridLayoutManager;
     private GalleryAdapter galleryAdapter;
@@ -54,10 +47,6 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -70,16 +59,17 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
-        LiveData<List<ImageItem>> imagesData = galleryViewModel.getImagesData();
-        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
-        mPhotoGridRecycler.setHasFixedSize(true);
-        mPhotoGridRecycler.setLayoutManager(gridLayoutManager);
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestStoragePermission();
             return;
         }
+        LiveData<List<ImageItem>> imagesData = galleryViewModel.getImagesData();
+        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
+        mPhotoGridRecycler.setHasFixedSize(true);
+        mPhotoGridRecycler.setLayoutManager(gridLayoutManager);
+
         galleryAdapter = new GalleryAdapter(getActivity(), imageItemList, this);
         mPhotoGridRecycler.setAdapter(galleryAdapter);
         imagesData.observe(this, imageItems -> {
@@ -90,11 +80,9 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
         });
     }
 
-
-
     private void requestStoragePermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
+
         } else {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_STORAGE_REQUEST);
         }

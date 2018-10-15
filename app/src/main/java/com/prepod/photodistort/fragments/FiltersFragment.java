@@ -134,31 +134,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
 
     @Override
     public void onClick(View view) {
-     /*   Bitmap res = null;
-        switch (view.getId()){
-            case R.id.btn_filter_gray:
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap res = createBitmap(imagePath);
-                        int[] pix = new int[res.getWidth() * res.getHeight()];
-                        res.getPixels(pix, 0, res.getWidth(), 0, 0, res.getWidth(),
-                                res.getHeight());
-                        ndkEmboss(pix, res.getWidth(), res.getHeight());
-                        Bitmap out = Bitmap.createBitmap(res.getWidth(), res.getHeight(),
-                                Bitmap.Config.ARGB_8888);
-                        out.setPixels(pix, 0, res.getWidth(), 0, 0, res.getWidth(),
-                                res.getHeight());
-                        Message m = myHandler.obtainMessage(1, out);
-                        myHandler.sendMessage(m);
 
-                        pix = null;
-                        res.recycle();
-
-                    }
-                }).start();
-                break;
-        }*/
     }
 
     @Override
