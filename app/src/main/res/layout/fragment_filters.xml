@@ -10,7 +10,7 @@
         android:id="@+id/image_item"
         android:layout_width="match_parent"
         android:src="@mipmap/ic_launcher"
-        android:layout_height="360dp" />
+        android:layout_height="@dimen/filters_image_height" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_margin="8dp"

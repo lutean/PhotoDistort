@@ -8,25 +8,25 @@
     <com.prepod.photodistort.AutoFitTextureView
         android:id="@+id/texture_camera"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="@dimen/camera_preview_height"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
     <Button
         android:id="@+id/btn_camera_switchcam"
-        android:layout_width="45dp"
+        android:layout_width="@dimen/camera_btn_size"
         android:layout_above="@+id/frame_camera_control"
-        android:layout_height="45dp"
+        android:layout_height="@dimen/camera_btn_size"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="@dimen/camera_btn_margin"
+        android:layout_marginBottom="@dimen/camera_btn_margin"
         android:background="@drawable/swap" />
 
 
     <FrameLayout
         android:id="@+id/frame_camera_control"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/texture_camera"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
@@ -34,8 +34,8 @@
 
         <Button
             android:id="@+id/btn_camera_takepic"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="@dimen/camera_takebtn_size"
+            android:layout_height="@dimen/camera_takebtn_size"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
