@@ -40,23 +40,8 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
     private RequestManager mGlide;
     private RecyclerView filtersLsit;
     private List<FilterItem> filterItemList = new ArrayList<>();
-    private Bitmap originalImage;
-    private Bitmap filteredImage;
     private FiltersViewModel filtersViewModel;
     private FiltersAdapter filtersAdapter;
-    @SuppressLint("HandlerLeak")
-    private Handler myHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.i("1", "handleMessage: ");
-            switch (msg.what) {
-                case 1:
-                    Bitmap bitmap = (Bitmap) msg.obj;
-                    resultImage.setImageBitmap(bitmap);
-                    break;
-            }
-        }
-    };
 
     public FiltersFragment() {
         // Required empty public constructor
@@ -114,12 +99,7 @@ public class FiltersFragment extends Fragment implements View.OnClickListener, F
                 .signature(new ObjectKey(System.currentTimeMillis()))
                 .override(512, 512)).into(resultImage);
     }
-
-
-    private Bitmap applyFilter(Bitmap bitmap, Filter filter) {
-        return filter.processFilter(bitmap);
-    }
-
+    
 
     @Override
     public void onClick(View view) {
