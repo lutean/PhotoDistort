@@ -115,5 +115,4 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
         }
     }
 
-
 }

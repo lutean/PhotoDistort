@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    def env = System.getenv()
+
     defaultConfig {
         applicationId "com.prepod.photodistort"
         minSdkVersion 21
@@ -12,6 +14,12 @@ android {
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
+            }
+        }
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def buildName = env.getOrDefault('BUILD_FILE_NAME', "photodistort" + "-"+ variant.versionName + ".apk")
+                outputFileName = buildName
             }
         }
     }
