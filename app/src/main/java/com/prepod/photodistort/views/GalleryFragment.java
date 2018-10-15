@@ -56,14 +56,19 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestStoragePermission();
             return;
         }
+        init();
+    }
+
+    private void init(){
         LiveData<List<ImageItem>> imagesData = galleryViewModel.getImagesData();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        mPhotoGridRecycler = view.findViewById(R.id.recycler_gallery_grid);
+
         mPhotoGridRecycler.setHasFixedSize(true);
         mPhotoGridRecycler.setLayoutManager(gridLayoutManager);
 
@@ -78,11 +83,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
     }
 
     private void requestStoragePermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-        } else {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_STORAGE_REQUEST);
-        }
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_STORAGE_REQUEST);
     }
 
     @Override
@@ -108,10 +109,10 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
                                            @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_STORAGE_REQUEST) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            init();
         }
     }
 

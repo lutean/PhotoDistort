@@ -307,11 +307,7 @@ public class CameraController implements LifecycleObserver {
     }
 
     private void requestCameraPermission() {
-        if (getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-//            new CameraFragment.ConfirmationDialog().show(getChildFragmentManager(), "dialog");
-        } else {
-            getActivity().requestPermissions(new String[]{Manifest.permission.CAMERA}, Const.PERMISSIONS_CAMERA_REQUEST);
-        }
+        getActivity().requestPermissions(new String[]{Manifest.permission.CAMERA}, Const.PERMISSIONS_CAMERA_REQUEST);
     }
 
 
@@ -458,7 +454,7 @@ public class CameraController implements LifecycleObserver {
                                         mCaptureCallback, mBackgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
-                            } catch (IllegalStateException e){
+                            } catch (IllegalStateException e) {
                                 e.printStackTrace();
                             }
                         }
