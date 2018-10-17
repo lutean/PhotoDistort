@@ -25,6 +25,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.Recycler
     private List<ImageItem> imageItems;
     private GalleryInteractionListener galleryInteractionListener;
     private RequestManager mGlide;
+
     public GalleryAdapter(Context context, List<ImageItem> imageItems, GalleryInteractionListener galleryInteractionListener) {
         this.imageItems = imageItems;
         this.galleryInteractionListener = galleryInteractionListener;

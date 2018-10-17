@@ -19,7 +19,6 @@ public class PhotoDistort extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         mInstanse = this;
     }
 

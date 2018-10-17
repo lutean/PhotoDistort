@@ -27,6 +27,7 @@ import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
@@ -99,6 +100,27 @@ public class CameraController implements LifecycleObserver {
     private int mSensorOrientation;
     private OnCapturePictureListener onCapturePictureListener;
     private Activity activity;
+    private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
+            openCamera(i, i1);
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
+            configureTransform(i, i1);
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+
+        }
+    };
     private CameraCaptureSession.CaptureCallback mCaptureCallback
             = new CameraCaptureSession.CaptureCallback() {
 
@@ -182,27 +204,6 @@ public class CameraController implements LifecycleObserver {
             if (null != activity) {
                 activity.finish();
             }
-        }
-    };
-    private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-            openCamera(i, i1);
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
-            configureTransform(i, i1);
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surfaceTexture) {
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
         }
     };
 
@@ -307,7 +308,7 @@ public class CameraController implements LifecycleObserver {
     }
 
     private void requestCameraPermission() {
-        getActivity().requestPermissions(new String[]{Manifest.permission.CAMERA}, Const.PERMISSIONS_CAMERA_REQUEST);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, Const.PERMISSIONS_CAMERA_REQUEST);
     }
 
 
@@ -606,6 +607,7 @@ public class CameraController implements LifecycleObserver {
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_START);
             mState = CameraState.STATE_WAITING_LOCK;
+            if (mCaptureSession == null) return;
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
                     mBackgroundHandler);
         } catch (CameraAccessException e) {

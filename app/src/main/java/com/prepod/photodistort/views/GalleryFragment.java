@@ -65,7 +65,7 @@ public class GalleryFragment extends BaseFragment implements GalleryAdapter.Gall
         init();
     }
 
-    private void init(){
+    private void init() {
         LiveData<List<ImageItem>> imagesData = galleryViewModel.getImagesData();
         gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 

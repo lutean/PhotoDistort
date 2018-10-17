@@ -29,7 +29,7 @@ public class FiltersActivity extends AppCompatActivity {
         shareBtn.setVisibility(View.VISIBLE);
         shareBtn.setOnClickListener(view -> {
             File file = new File(getExternalFilesDir(null), "photo_distorted.jpg");
-            if (file.exists()){
+            if (file.exists()) {
                 Intent share = new Intent(Intent.ACTION_VIEW);
                 share.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 Uri fileURI = FileProvider.getUriForFile(
@@ -48,6 +48,5 @@ public class FiltersActivity extends AppCompatActivity {
                     .replace(R.id.container, FiltersFragment.newInstance(imagePath))
                     .commit();
         }
-
     }
 }

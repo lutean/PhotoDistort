@@ -1,19 +1,14 @@
 package com.prepod.photodistort.views;
 
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +21,6 @@ import com.bumptech.glide.signature.ObjectKey;
 import com.prepod.photodistort.Const;
 import com.prepod.photodistort.R;
 import com.prepod.photodistort.models.FilterItem;
-import com.zomato.photofilters.imageprocessors.Filter;
 
 import java.io.File;
 import java.util.ArrayList;

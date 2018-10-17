@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import com.prepod.photodistort.models.ImageItem;
 
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.MediaStore.Images.Media.query;
-import static android.support.constraint.Constraints.TAG;
 
 public class ImageLoadHelper {
 
@@ -20,7 +18,7 @@ public class ImageLoadHelper {
         return ("/DCIM/");//Camera
     }
 
-    public static List<ImageItem>  addLocalItems(ContentResolver contentResolver) {
+    public static List<ImageItem> addLocalItems(ContentResolver contentResolver) {
         ContentResolver resolver = contentResolver;
         List<ImageItem> imageList = new ArrayList<ImageItem>();
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -45,7 +43,7 @@ public class ImageLoadHelper {
         int thumbIDIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MINI_THUMB_MAGIC);
 
         int initedLocalCount = 0;
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             String thumb = cursor.getString(dataIndex);
             long id = cursor.getLong(imageIDIndex);
             imageList.add(new ImageItem(id, thumb));
@@ -54,7 +52,6 @@ public class ImageLoadHelper {
         cursor.close();
         return imageList;
     }
-
 
 
     public static List<ImageItem> getImages(ContentResolver contentResolver) {

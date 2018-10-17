@@ -23,6 +23,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.FiltersV
     private List<FilterItem> filterList;
     private RequestManager mGlide;
     private OnFilterClickListener onFilterClickListener;
+
     public FiltersAdapter(Context context, List<FilterItem> filterList, OnFilterClickListener onFilterClickListener) {
         this.filterList = filterList;
         mGlide = Glide.with(context);
